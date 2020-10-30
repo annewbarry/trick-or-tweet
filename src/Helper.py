@@ -1,3 +1,5 @@
+# Code provided by self-generated Capstone II
+
 import pandas as pd
 import numpy as np
 import re
@@ -16,32 +18,9 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from langid.langid import LanguageIdentifier, model
 
 sw = set(stopwords.words('english'))
-new_words = set([i.lower() for i in ['sprintcare', 'Ask_Spectrum', 'VerizonSupport', 'ChipotleTweets',
-       'AskPlayStation', 'marksandspencer', 'MicrosoftHelps',
-       'ATVIAssist', 'AdobeCare', 'AmazonHelp', 'XboxSupport',
-       'AirbnbHelp', 'AirAsiaSupport', 'Morrisons', 'NikeSupport',
-       'AskAmex', 'YahooCare', 'AskLyft', 'UPSHelp', 'Delta', 'McDonalds',
-       'AppleSupport', 'Uber_Support', 'Tesco', 'SpotifyCares',
-       'British_Airways', 'comcastcares', 'AmericanAir', 'TMobileHelp',
-       'VirginTrains', 'SouthwestAir', 'AskeBay', 'hulu_support',
-       'GWRHelp', 'sainsburys', 'AskPayPal', 'HPSupport', 'ChaseSupport',
-       'CoxHelp', 'DropboxSupport', 'VirginAtlantic', 'BofA_Help',
-       'AzureSupport', 'AlaskaAir', 'ArgosHelpers', 'Postmates_Help',
-       'AskTarget', 'GoDaddyHelp', 'CenturyLinkHelp', 'AskPapaJohns',
-       'SW_Help', 'nationalrailenq', 'askpanera', 'Walmart',
-       'USCellularCares', 'AsurionCares', 'GloCare', 'idea_cares',
-       'DoorDash_Help', 'NeweggService', 'VirginAmerica',
-       'Ask_WellsFargo', 'O2', 'asksalesforce', 'airtel_care', 'Kimpton',
-       'AskCiti', 'IHGService', 'JetBlue', 'BoostCare', 'JackBox',
-       'HiltonHelp', 'GooglePlayMusic', 'KFC_UKI_Help', 'DellCares',
-       'TwitterSupport', 'GreggsOfficial', 'LondonMidland', 'ATT',
-       'TacoBellTeam', 'Safaricom_Care', 'AskRBC', 'ArbysCares',
-       'NortonSupport', 'AskSeagate', 'sizehelpteam', 'TfL', 'AldiUK',
-       'SCsupport', 'AskDSC', 'AskVirginMoney', 'AskRobinhood',
-       'MTNC_Care', 'DunkinDonuts', 'AWSSupport', 'VMUcare',
-       'mediatemplehelp', 'MOO', 'PandoraSupport', 'askvisa',
-       'OPPOCareIN', 'ask_progressive', 'PearsonSupport', 'AskTigogh',
-       'OfficeSupport', 'CarlsJr', 'HotelTonightCX', 'KeyBank_Help']])
+new_words = set([i.lower() for i in ['trump','biden','joe','joebiden','donald','donaldtrump','white',
+                                     'lady','first','president','debate','vote','say','lose','people',
+                                    'camila','harris','camilaharris','mike','pence','mikepence']])
 sw.update(new_words)
 
 wordnet_map = {"N":wordnet.NOUN, "V":wordnet.VERB, "J":wordnet.ADJ, "R":wordnet.ADV}
@@ -353,112 +332,6 @@ for i in text_speech.split("\n"):
             
 chat_list = set(chat_list)
 
-def day_of_week_num(dts):
-    '''
-    weekday: takes in the day_of_week_num converted column
-    and assigns those numbers (after looking up which day
-    of the week 0 landed on) and assigned a string representation
-    of that day of the week
-    Parameters
-    ----------
-    dts: Integer
-    Returns
-    -------
-    dts: Python string of the day of the week
-    '''
-    return (dts.view('int64') - 4) % 7
-
-def weekday(dts):
-    '''
-    weekday: takes in the day_of_week_num converted column
-    and assigns those numbers (after looking up which day
-    of the week 0 landed on) and assigned a string representation
-    of that day of the week
-    Parameters
-    ----------
-    dts: Integer
-    Returns
-    -------
-    dts: Python string of the day of the week
-    '''
-    if dts == 0:
-        dts = 'Tuesday'
-    elif dts == 1:
-        dts = 'Wednesday'
-    elif dts == 2:
-        dts = 'Thursday'
-    elif dts == 3:
-        dts = 'Friday'
-    elif dts == 4:
-        dts = 'Saturday'
-    elif dts == 5:
-        dts = 'Sunday'
-    else:
-        dts = 'Monday'
-    return dts
-
-def set_response_category(col):
-    '''
-    set_response_category: takes in the minutes to respond
-    and sets a cutoff point between less than or equal to 27
-    as "Fast" and above 27 as "Slow"
-    Parameters
-    ----------
-    doc: Numpy Array
-    Returns
-    -------
-    doc: Python list of categorical values
-    '''
-    lst = []
-    for i in col:
-        if i <= 27.0:
-            lst.append('Fast')
-        else:
-            lst.append('Slow')
-    return lst
-
-
-def dataframe_clean(df_file_path):
-    '''
-    dataframe_clean: takes in a string and converts
-    emoticons ':), :(, :-), etc.' with word values.
-    Parameters
-    ----------
-    doc: Python string
-    Returns
-    -------
-    doc: Python string with cleaned dataframe
-    '''
-    tweets = pd.read_csv(df_file_path)
-    company_responses = tweets[tweets['inbound'] == False]
-    # Pick only inbound tweets that aren't in reply to anything...
-    first_inbound = tweets[pd.isnull(tweets.in_response_to_tweet_id) & tweets.inbound]
-    # Merge in all tweets in response
-    inbounds_and_outbounds = pd.merge(first_inbound, tweets, left_on='tweet_id', 
-                                      right_on='in_response_to_tweet_id')
-    # Filter out cases where reply tweet isn't from company
-    tweets = inbounds_and_outbounds[inbounds_and_outbounds.inbound_y ^ True]
-    tweets = tweets.drop(['response_tweet_id_x', 'in_response_to_tweet_id_x', 
-                          'response_tweet_id_y', 'in_response_to_tweet_id_y', 'tweet_id_x','tweet_id_y' ], axis = 1)
-    # Converts date columns into datetime
-    tweets.created_at_x = pd.to_datetime(tweets.created_at_x)
-    tweets.created_at_y = pd.to_datetime(tweets.created_at_y)
-    # Calculates time_to_respond by subtracting the time between customer and customer support team responses
-    tweets['time_to_respond'] = tweets.created_at_y - tweets.created_at_x
-    tweets = tweets.drop(['created_at_y','inbound_x','inbound_y'], axis = 1)
-    tweets.columns = ['customer_tweet_id', 'time_tweeted', 'customer_tweet_text', 'company_name', 'company_response_text','time_to_respond']
-    # Calculates which day of the week the tweet was made (Mon-Sun)
-    tweets.time_tweeted = tweets.time_tweeted.apply(lambda x: day_of_week_num(x))
-    tweets.time_tweeted = tweets.time_tweeted.apply(lambda x: weekday(x))
-    tweets.rename({'time_tweeted':'day_tweeted'}, axis = 1, inplace = True)
-    # Converts thetime to respond into minutes
-    seconds = tweets['time_to_respond'] / np.timedelta64(1, 's')
-    tweets.time_to_respond = seconds
-    tweets.time_to_respond = tweets.time_to_respond.apply(lambda x: math.ceil(x/60))
-    tweets.rename({'time_to_respond': 'minutes_to_respond'},axis = 1, inplace = True)
-    # Sets the target values of the dataframe to be above 27 minutes and below or equal to 27 minutes
-    tweets['Reponse_Speed'] = set_response_category(tweets.minutes_to_respond)
-    return tweets
 
 def lowercase(doc):
     '''
