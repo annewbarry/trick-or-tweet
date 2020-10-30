@@ -58,7 +58,7 @@ We compiled a list of stopwords, such as “speedy”, “positive”, and “ne
 Running the model now with the adjective strings and only unigrams and bigrams gave 70% accuracy, with a ROC AUC score of .81.  We cross-referenced the lists of the top features by log probability for each candidate and kept only the words that were unique to each candidate.  The image shows that the words seem to be mostly neutral/negative for Biden and more polarized for Trump, not necessarily unexpected given the fact that it’s Twitter. 
 
 <p align="center">
-  <img src="indicator.png" >
+  <img src="indicators.png" >
 </p>
 
 <p align="center">
