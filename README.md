@@ -15,7 +15,7 @@ There were a total of 68201 tweets that mention only Donald Trump, 23389 tweets 
 Once the tweets were tagged by candidate, a histogram showed that a handful of tweets got a disproportionate number of retweets.  3,121 tweets had over 400,000 retweets attributed to them each.
 
 <p align="center">
-  <img src="img/retweeet_hist.png" >
+  <img src="retweeet_hist.png" >
 </p>
 
 It turned out that 3,120 of these tweets all contained the same text: “RT @realDonaldTrump: Tonight, @FLOTUS and I tested positive for COVID-19. We will begin our quarantine and recovery process immediately. We…,” which was Trump’s announcement that he had COVID-19.  The remaining tweet was a retweet of a Taylor Swift tweet reading, “RT @taylorswift13: After stoking the fires of white supremacy and racism your entire presidency, you have the nerve to feign moral superior…”.  This means that within our data set, if multiple users retweet the same tweet, they are entered as separate rows and the retweet count column contains the lifetime retweets of the original tweet.
@@ -31,13 +31,13 @@ For this project, we utilized a library called VADER sentiment analysis. VADER c
 Once we calculated the sentiment for each presidential candidate’s tweets, we mapped it out over the three dates that the data contained. Which is visible in the graph below: 
 
 <p align="center">
-  <img src="img/Sentiment_per_candidate.png" >
+  <img src="Sentiment_per_candidate.png" >
 </p>
 
 As you can see, it seems that the majority of tweets that actually mention either of the candidates, has an overall negative sentiment. While those that mentioned neither, had an overall positive sentiment. This is really interesting! Once we saw these results, we were interested in looking at the breakdown of positive to negative sentiment for each candidate. Let’s view this now.
 
 <p align="center">
-  <img src="img/sentiment_counts.png" >
+  <img src="sentiment_counts.png" >
 </p>
 
 Wow, interesting! Although there seems to be a difference in the counts of positive sentiment and negative sentiment tweets, there doesn’t seem to be much of a difference between the two. Meanwhile, the tweets where there is no candidate mentioned, it seems to have an overall positive sentiment.
@@ -58,11 +58,11 @@ We compiled a list of stopwords, such as “speedy”, “positive”, and “ne
 Running the model now with the adjective strings and only unigrams and bigrams gave 70% accuracy, with a ROC AUC score of .81.  We cross-referenced the lists of the top features by log probability for each candidate and kept only the words that were unique to each candidate.  The image shows that the words seem to be mostly neutral/negative for Biden and more polarized for Trump, not necessarily unexpected given the fact that it’s Twitter. 
 
 <p align="center">
-  <img src="img/indicator.png" >
+  <img src="indicator.png" >
 </p>
 
 <p align="center">
-  <img src="img/roc_curve.png" >
+  <img src="roc_curve.png" >
 </p>
 
 While we continuously updated our stopword list with each pass, ultimately non-adjectives continued to sneak in.In further research, we would like to examine how sentiment towards these candidates evolves over time.# trick-or-tweet
