@@ -21,6 +21,7 @@ class DataCleaning(object):
             self.df = pd.read_csv('data/subset.csv')
         else:
             self.df = self.read_json_file()
+        self.df = self.add_needed_columns()
 
     def read_json_file(self):
         with open(self.fp, 'r') as json_file:
@@ -80,7 +81,27 @@ class DataCleaning(object):
                                                     x['hashtags'])
         self.df['party'] = self.df.user_description.apply(self.determine_party)
         self.df['about'] = self.df['full_text'].apply(self.about)
-        self.df['retweet'] = self.df['full_text'].apply(lambda x: x.find('RT') >= 0)
+        self.df['retweet'] = self.df['full_text'].apply(lambda x:
+                                                        x.find('RT') >= 0)
+        trump_cov_string1 = 'RT @realDonaldTrump: Tonight, @FLOTUS '
+        trump_cov_string2 = 'and I tested positive for COVID-19.'
+        trump_cov_string = trump_cov_string1 + trump_cov_string2
+        self.df['tweet_heard_round_the_world'] = self.df['full_text'].apply(
+        lambda x: x.find(trump_cov_string) >=0)
+        self.no_rt = df.drop_duplicates(subset=['full_text'])
+        self.df_biden = self.no_rt[self.no_rt['about'] == 'Biden']
+        self.df_trump = self.no_rt[self.no_rt['about'] == 'Trump']
+
+    def generate_sub_dfs(self):
+        self.no_rt = df.drop_duplicates(subset=['full_text'])
+        self.df_biden = self.no_rt[self.no_rt['about'] == 'Biden']
+        self.df_trump = self.no_rt[self.no_rt['about'] == 'Trump']
+        bool_ser = df_trump['tweet_hear_round_the_world'] == False
+        self.df_trump_no_covid = df_trump[bool_ser]
+
+
+
+    
 
 
 if __name__ == '__main__':
